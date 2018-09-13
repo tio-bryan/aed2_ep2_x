@@ -15,7 +15,7 @@ typedef struct reg {
 typedef struct reg2 {
     int vertice;
     int cor; // 0 p/ branco, 1 p/ cinza, 2 p/ preto
-    int d;
+    float d;
     int pi;
     struct reg2 * prox;
 } Reg2;
@@ -23,28 +23,6 @@ typedef struct reg2 {
 int v;
 Reg2 resultado[10000];
 int tempo = 0;
-
-// int dfs_visit(Reg lista_adj[], int vertice) {
-//     tempo += 1;
-//     resultado[vertice].d = tempo;
-//     resultado[vertice].cor = 1;
-
-//     Reg * tmp = &lista_adj[vertice];
-    
-//     while (tmp->prox != NULL) {
-//         tmp = tmp->prox;
-//         if (resultado[tmp->vertice].cor == 0) {
-//             resultado[tmp->vertice].pi = vertice;
-//             dfs_visit(lista_adj, tmp->vertice);
-//         }
-//     }
-
-//     resultado[vertice].cor = 2;
-//     tempo += 1;
-//     resultado[vertice].f = tempo;
-
-//     return 0;
-// }
 
 // Fila dos vértices
 int fila[10000];
@@ -74,7 +52,7 @@ int bfs(Reg lista_adj[], int vertice) {
     for (int i = 0; i < v; i++) {
         if (i != vertice) {
             resultado[i].cor = 0;
-            resultado[i].d = 2147483647; // Valor max do int
+            resultado[i].d = -1;
             resultado[i].pi = -1;
         }
     }
@@ -93,7 +71,7 @@ int bfs(Reg lista_adj[], int vertice) {
             tmp = tmp->prox;
             if (resultado[tmp->vertice].cor == 0) {
                 resultado[tmp->vertice].cor = 1;
-                resultado[tmp->vertice].d = resultado[u - 1].d + 1;
+                resultado[tmp->vertice].d = resultado[u - 1].d + tmp->peso;
                 resultado[tmp->vertice].pi = u;
                 enqueue(resultado[tmp->vertice].vertice);
             }
@@ -131,10 +109,9 @@ int main(int argc, char *argv[]) {
 
     int origem, destino;
     float peso;
+
     //Le linha por linha e insere vertices na lista_adj de adjacencia
     while (fscanf(fp, "%i %i %f", &origem, &destino, &peso) != EOF) {
-        //printf("%i\n", peso);
-
         Reg * no_vertice = (Reg *) malloc((int)sizeof(Reg));
 
         no_vertice->vertice = destino;
@@ -167,13 +144,7 @@ int main(int argc, char *argv[]) {
     
     fclose(fp);
 
-    // // Algoritmo do DFS. Para cada vertice, se for branco aplica dfs_visit
-    // for (int i = 0; i < v; i++) {
-    //     if (resultado[i].cor == 0) {
-    //         dfs_visit(lista_adj, i);
-    //     }
-    // }
-
+    // Preenche o vetor da fila com -1 (NULL)
     for (int i = 0; i < 10000; i++) {
         fila[i] = -1;
     }
@@ -183,7 +154,7 @@ int main(int argc, char *argv[]) {
 
     // Imprime resultados
     for (int i = 0; i < v; i++) {
-        printf("%i %i %i\n", resultado[i].vertice, resultado[i].d,
+        printf("%i %f %i\n", resultado[i].vertice, resultado[i].d,
                                 resultado[i].pi);
     }
 
