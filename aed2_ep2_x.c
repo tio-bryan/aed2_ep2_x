@@ -16,7 +16,6 @@ typedef struct reg2 {
     int vertice;
     int cor; // 0 p/ branco, 1 p/ cinza, 2 p/ preto
     int d;
-    int f;
     int pi;
     struct reg2 * prox;
 } Reg2;
@@ -126,7 +125,6 @@ int main(int argc, char *argv[]) {
         resultado[i].vertice = i + 1;
         resultado[i].cor = 0;
         resultado[i].d = -1;
-        resultado[i].f = -1;
         resultado[i].pi = -1;
         resultado[i].prox = NULL;
     }
@@ -185,8 +183,8 @@ int main(int argc, char *argv[]) {
 
     // Imprime resultados
     for (int i = 0; i < v; i++) {
-        printf("%i %i %i %i\n", resultado[i].vertice, resultado[i].d,
-                                resultado[i].f, resultado[i].pi);
+        printf("%i %i %i\n", resultado[i].vertice, resultado[i].d,
+                                resultado[i].pi);
     }
 
     return 0;
