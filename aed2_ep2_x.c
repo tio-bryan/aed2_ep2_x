@@ -80,6 +80,13 @@ int bfs(Reg lista_adj[], int vertice) {
         resultado[u - 1].cor = 2;
     }
 
+    // Imprime resultados
+    for (int i = 0; i < v; i++) {
+        printf("%0.2f ", resultado[i].d);
+    }
+
+    printf("\n");
+
     return 0;
 }
 
@@ -149,13 +156,9 @@ int main(int argc, char *argv[]) {
         fila[i] = -1;
     }
 
-    // Executa BFS
-    bfs(lista_adj, 0);
-
-    // Imprime resultados
+    // Executa BFS em cada vértice
     for (int i = 0; i < v; i++) {
-        printf("%i %f %i\n", resultado[i].vertice, resultado[i].d,
-                                resultado[i].pi);
+        bfs(lista_adj, i);
     }
 
     return 0;
